@@ -1,0 +1,33 @@
+{
+  "name": "yuhoucunsun",
+  "description": "响应式模板的文件目录设置",
+  "main": "",
+  "authors": [
+    "“efri-yang” <“948061564@qq.com”>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "latest",
+    "jquery-1.9.0": "jquery#1.9.0",
+    "bootstrap": "latest",
+    "requirejs": "latest",
+    "angularjs-1.4.0":"angularjs#1.4.0"
+  },
+  "exportsOverride": {
+    "bootstrap": {
+      "": "dist/"
+    },
+    "jquery":{
+      "":["jquery.{js,min.js,min.map}","dist/jquery.{js,min.js,min.map}"]
+    }
+  }
+}

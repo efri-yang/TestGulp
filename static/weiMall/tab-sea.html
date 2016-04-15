@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>tab-sea</title>
+	
+</head>
+<body>
+	<button id="btn">按钮1</button>
+	<script type="text/javascript" src="../common/lib/seajs/2.2.0/sea-debug.js"></script>
+	<script type="text/javascript">
+		
+		seajs.config({
+			base: "../common/lib/",
+		    alias: {
+		      "jquery": "jquery/jquery/2.1.4/jquery-2.1.4",
+		      'tab':'jquery/tab/tab',
+		      "angular":"angular/angularjs/1.1.5/angular-debug",
+		      "zepto":"zepto/1.1.6/src/zepto"
+		    }
+		});
+		seajs.use(['jquery','tab'],function($,tab){
+			$("#btn").tab();
+		});
+		seajs.use(['jquery','angular']);
+		seajs.use(['jquery','zepto']);
+	</script>
+</body>
+</html>
