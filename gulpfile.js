@@ -12,6 +12,7 @@ var plumber = require('gulp-plumber');
 var notify = require('gulp-notify');
 var del=require("del");
 var rename = require('gulp-rename');
+var fileInclude =require("gulp-file-include");
 
 //********sass 
 gulp.task('sass', function() {  
@@ -56,7 +57,6 @@ gulp.task("clean",function(){
 
 /**
  * 任务：拷贝文件
- * 插件名：gulp-copy
  * 配合插件：——       
  */
 gulp.task("cleanDist",function(){
@@ -64,9 +64,19 @@ gulp.task("cleanDist",function(){
 });
 gulp.task('copy',['cleanDist'],function(){
     gulp.src("Test/images/**")
-            .pipe(rename({dirname: ''}))  
             .pipe(gulp.dest("Dist/images"));  
 });
+
+
+//********file include
+gulp.task("fileInclude",function(){
+    gulp.src(['include/*.html'])
+            .pipe(fileInclude({
+                prefix: '@@',
+                basepath: '@file'
+            }))
+            .pipe(gulp.dest("Dist"));
+})
 
 //********serve 
 gulp.task("serve",["sass","imagemin"],function(){
@@ -79,7 +89,7 @@ gulp.task("serve",["sass","imagemin"],function(){
     gulp.watch("Test/sass/*.scss",["sass"]);
     gulp.watch("Test/images/*.{png,jpg,gif,ico}",["imagemin"]);
     gulp.watch("Test/*.html",reload); 
-})
+});
 
 
 
