@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+// 变量和混合函数
+@import "variablesmixins/variables";
+@import "variablesmixins/mixins";
+
+// 网站公共的layout
+@import "layouts/header";
+@import "layouts/aside";
+@import "layouts/footer";
+

@@ -1,0 +1,10 @@
+@charset "UTF-8";
+// Core variables and mixins
+// 变量和混合函数
+@import "variablesmixins/variables";
+@import "variablesmixins/mixins";
+
+// // Reset and dependencies
+@import "reset.scss";
+@import "layout.scss";
+@import "components.scss";

@@ -16,7 +16,7 @@ var fileInclude =require("gulp-file-include");
 var wrench=require("wrench");
 
 
-var paths = {
+exports.paths = {
   src: 'src',
   dist: 'dist',
   tmp: '.tmp'
@@ -35,33 +35,17 @@ var paths = {
 // })
 //********sass 
 gulp.task('sass', function() {  
-    return sass([paths.src+'/**/*.scss'],{ sourcemap: true})
+    return sass(paths.src+'Test/sass/**/*.scss',{ sourcemap: true})
         .pipe(plumber({errorHandler: notify.onError('错误: <%= error.message %>')}))
         .pipe(sourcemaps.write())
         .pipe(sourcemaps.write('maps', {
               includeContent: false,
               sourceRoot: 'source'
          }))
-        .pipe(gulp.dest(paths.tmp))
+        .pipe(gulp.dest('Test/css/'))
         .pipe(filter('**/*.css')) // Filtering stream to only css files
         .pipe(browserSync.reload({stream:true}));// Write the CSS & Source maps
 });
-
-gulp.task('html', function() {  
-    gulp.src("")
-});
-
-
-gulp.task("serve",["sass"],function(){
-    browserSync.init({
-        server:{
-            baseDir:"./tmp/",
-            directory:true
-        }
-    });
-    gulp.watch([paths.src+'/**/*.scss'],["sass"]);
-    gulp.watch(paths.src+'/**/*.html',reload);
-})
 
 //********图片 
 gulp.task("imagemin",function(){
@@ -178,17 +162,17 @@ gulp.task("fileInclude",function(){
 
 
 //********serve 
-// gulp.task("serve",["sass","imagemin"],function(){
-//     browserSync.init({
-//         server:{
-//             baseDir:"./Test/",
-//             directory:true
-//         }
-//     });
-//     gulp.watch("Test/sass/*.scss",["sass"]);
-//     gulp.watch("Test/images/*.{png,jpg,gif,ico}",["imagemin"]);
-//     gulp.watch("Test/*.html",reload); 
-// });
+gulp.task("serve",["sass","imagemin"],function(){
+    browserSync.init({
+        server:{
+            baseDir:"./Test/",
+            directory:true
+        }
+    });
+    gulp.watch("Test/sass/*.scss",["sass"]);
+    gulp.watch("Test/images/*.{png,jpg,gif,ico}",["imagemin"]);
+    gulp.watch("Test/*.html",reload); 
+});
 
 
 
