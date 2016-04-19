@@ -48,19 +48,21 @@ gulp.task('sass', function() {
 });
 
 gulp.task('html', function() {  
-    gulp.src("")
+    gulp.src(paths.src+'/**/*.html')
+        .pipe(gulp.dest(paths.tmp))
+        .pipe(browserSync.reload({stream:true}));// Write the CSS & Source maps
 });
 
 
-gulp.task("serve",["sass"],function(){
+gulp.task("serve",["sass","html"],function(){
     browserSync.init({
         server:{
-            baseDir:"./tmp/",
+            baseDir:".tmp/HTML/",
             directory:true
         }
     });
     gulp.watch([paths.src+'/**/*.scss'],["sass"]);
-    gulp.watch(paths.src+'/**/*.html',reload);
+    gulp.watch(paths.src+'/**/*.html',["html"]);
 })
 
 //********图片 
