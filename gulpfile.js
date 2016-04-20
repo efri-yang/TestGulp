@@ -42,12 +42,7 @@ gulp.task('sass', function() {
               includeContent: false,
               sourceRoot: 'source'
          }))
-        .pipe(rename(function (path) {
-        
-            return path;
-          }))
         .pipe(gulp.dest(paths.tmp))
-        // .pipe(filter('**/*.css')) // Filtering stream to only css files
         .pipe(browserSync.reload({stream:true}));// Write the CSS & Source maps
        
 });
@@ -59,8 +54,12 @@ gulp.task('html', function() {
        
 });
 
+gulp.task('clean:tmp',function(cb) {  
+    del([paths.tmp+"/**/*","!"+paths.tmp]);  
+});
 
-gulp.task("serve",["sass","html"],function(){
+
+gulp.task("serve",["imagemin","sass","html"],function(){
     browserSync.init({
         server:{
             baseDir:".tmp/",
@@ -69,11 +68,12 @@ gulp.task("serve",["sass","html"],function(){
     });
     gulp.watch([paths.src+'/**/*.scss'],["sass"]);
     gulp.watch(paths.src+'/**/*.html',["html"]);
+    gulp.watch(paths.src+"/**/*.{png,jpg,gif,ico}",["imagemin"]);
 });
 
 //********图片 
 gulp.task("imagemin",function(){
-    gulp.src("Test/images/*.{png,jpg,gif,ico}")
+    gulp.src(paths.src+"/**/*.{png,jpg,gif,ico}")
             .pipe(cache(imagemin({
                 optimizationLevel: 5, //类型：Number  默认：3  取值范围：0-7（优化等级）
                 progressive: true, //类型：Boolean 默认：false 无损压缩jpg图片
@@ -82,7 +82,7 @@ gulp.task("imagemin",function(){
                 svgoPlugins: [{removeViewBox: false}],//不要移除svg的viewbox属性
                 use: [pngquant()] //使用pngquant深度压缩png图片的imagemin插件
             })))
-            .pipe(gulp.dest('Dist/images'))
+            .pipe(gulp.dest(paths.tmp))
             .pipe(browserSync.reload({stream:true}));
 });
 
