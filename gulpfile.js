@@ -35,35 +35,41 @@ var paths = {
 // })
 //********sass 
 gulp.task('sass', function() {  
-    return sass([paths.src+'/**/*.scss'],{ sourcemap: true})
+    return sass(paths.src+'/**/*.scss',{ sourcemap: true})
         .pipe(plumber({errorHandler: notify.onError('错误: <%= error.message %>')}))
         .pipe(sourcemaps.write())
         .pipe(sourcemaps.write('maps', {
               includeContent: false,
               sourceRoot: 'source'
          }))
+        .pipe(rename(function (path) {
+        
+            return path;
+          }))
         .pipe(gulp.dest(paths.tmp))
-        .pipe(filter('**/*.css')) // Filtering stream to only css files
+        // .pipe(filter('**/*.css')) // Filtering stream to only css files
         .pipe(browserSync.reload({stream:true}));// Write the CSS & Source maps
+       
 });
 
 gulp.task('html', function() {  
     gulp.src(paths.src+'/**/*.html')
         .pipe(gulp.dest(paths.tmp))
         .pipe(browserSync.reload({stream:true}));// Write the CSS & Source maps
+       
 });
 
 
 gulp.task("serve",["sass","html"],function(){
     browserSync.init({
         server:{
-            baseDir:".tmp/HTML/",
+            baseDir:".tmp/",
             directory:true
         }
     });
     gulp.watch([paths.src+'/**/*.scss'],["sass"]);
     gulp.watch(paths.src+'/**/*.html',["html"]);
-})
+});
 
 //********图片 
 gulp.task("imagemin",function(){
@@ -78,7 +84,7 @@ gulp.task("imagemin",function(){
             })))
             .pipe(gulp.dest('Dist/images'))
             .pipe(browserSync.reload({stream:true}));
-})
+});
 
 
 /**
