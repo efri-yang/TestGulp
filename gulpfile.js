@@ -14,6 +14,7 @@ var del=require("del");
 var rename = require('gulp-rename');
 var fileInclude =require("gulp-file-include");
 var wrench=require("wrench");
+var autoPrefixer=require("gulp-autoprefixer");
 
 
 var paths = {
@@ -36,6 +37,7 @@ var paths = {
 //********sass 
 gulp.task('sass', function() {  
     return sass(paths.src+'/**/*.scss',{ sourcemap: true})
+        .pipe(autoPrefixer('last 2 version'))
         .pipe(plumber({errorHandler: notify.onError('错误: <%= error.message %>')}))
         .pipe(sourcemaps.write())
         .pipe(sourcemaps.write('maps', {
@@ -48,10 +50,14 @@ gulp.task('sass', function() {
 });
 
 gulp.task('html', function() {  
-    gulp.src(paths.src+'/**/*.html')
+    gulp.src([paths.src+'/**/*.html'])
+        .pipe(fileInclude({
+            prefix: '@@',
+            basepath: '@file'
+        }))
+        .pipe(filter(paths.src +'/**/!(_)*.html'))
         .pipe(gulp.dest(paths.tmp))
-        .pipe(browserSync.reload({stream:true}));// Write the CSS & Source maps
-       
+        .pipe(browserSync.reload({stream:true}));// Write the CSS & Source maps  
 });
 
 gulp.task('clean:tmp',function(cb) {  

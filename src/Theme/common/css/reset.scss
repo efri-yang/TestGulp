@@ -69,5 +69,30 @@ input[type="search"]::-webkit-search-decoration {
 }
 
 body{
-	background: #f60
+	background: #000;
+	transition: all 3s;
+	 box-sizing: border-box;
+}
+.gradient {
+  background: linear-gradient(bottom, #000, #fff);
+}
+
+.box-sizing {
+  box-sizing: border-box;
+}
+
+.text-adjust {
+  text-size-adjust: 100%;
+}
+
+.opacity {
+  opacity: .5;
+}
+
+:fullscreen a {
+  transition: transform 1s;
+}
+
+.flex {
+  display: flex;
 }
