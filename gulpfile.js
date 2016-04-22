@@ -15,6 +15,8 @@ var rename = require('gulp-rename');
 var fileInclude =require("gulp-file-include");
 var wrench=require("wrench");
 var autoPrefixer=require("gulp-autoprefixer");
+var cleanCSS=require("gulp-clean-css");
+
 
 
 var paths = {
@@ -37,13 +39,16 @@ var paths = {
 //********sass 
 gulp.task('sass', function() {  
     return sass(paths.src+'/**/*.scss',{ sourcemap: true})
+        .pipe(cache("cached"))
         .pipe(autoPrefixer('last 2 version'))
         .pipe(plumber({errorHandler: notify.onError('错误: <%= error.message %>')}))
-        .pipe(sourcemaps.write())
+        // .pipe(sourcemaps.write())
+
         .pipe(sourcemaps.write('maps', {
               includeContent: false,
               sourceRoot: 'source'
          }))
+
         .pipe(gulp.dest(paths.tmp))
         .pipe(browserSync.reload({stream:true}));// Write the CSS & Source maps
        
@@ -51,12 +56,18 @@ gulp.task('sass', function() {
 
 gulp.task('html', function() {  
     gulp.src([paths.src+'/**/*.html'])
+        
         .pipe(fileInclude({
             prefix: '@@',
             basepath: '@file'
         }))
+        .pipe(cache())
+        // 下面这段原本是用来拷贝过滤文件，但是在sass的时候，却
+        // 过滤了_header.html 改变在控制台不输出
         .pipe(filter(paths.src +'/**/!(_)*.html'))
+
         .pipe(gulp.dest(paths.tmp))
+        
         .pipe(browserSync.reload({stream:true}));// Write the CSS & Source maps  
 });
 
