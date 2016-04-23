@@ -10,9 +10,10 @@ var conf = require('./conf');
 
 
 gulp.task('style', function() {
-    sass(conf.paths.src + '/**/*.scss')
-
-        .pipe(sourcemaps.init())
+    sass(conf.paths.src + '/**/*.scss',{sourcemap:true})
+        .pipe(sourcemaps.init({
+            sourcemap:true
+        }))
         .pipe(cache("cached"))
         .on('error', conf.errorHandler("style-tmp"))
         .pipe(sourcemaps.write())
