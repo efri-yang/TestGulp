@@ -16,6 +16,7 @@ wrench.readdirSyncRecursive('./gulp').filter(function(file) {
  * tmp任务
  */
 
+
 gulp.task("default",function(){
 	runSequence('clean',["html","style",'image','script'],'other',"serve");
 });
